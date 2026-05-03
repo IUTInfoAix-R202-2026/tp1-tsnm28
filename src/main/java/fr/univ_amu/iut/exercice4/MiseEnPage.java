@@ -1,6 +1,15 @@
 package fr.univ_amu.iut.exercice4;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
@@ -34,16 +43,40 @@ public class MiseEnPage extends Application {
     // Stratégie conseillée :
     //
     // 1. Un BorderPane comme racine (setTop, setCenter, setBottom).
-    // 2. Top    : un MenuBar avec deux Menu "Fichier" et "Aide".
+    BorderPane root = new BorderPane();
+    // 2. Top : un MenuBar avec deux Menu "Fichier" et "Aide".
+    MenuBar menuBar = new MenuBar();
+    menuBar.getMenus().addAll(new Menu("Fichier"), new Menu("Aide"));
+    root.setTop(menuBar);
     // 3. Center : un GridPane avec 2 lignes / 2 colonnes :
-    //                (0,0) Label "Nom :"     | (1,0) TextField
-    //                (0,1) Label "Email :"   | (1,1) TextField
+    // (0,0) Label "Nom :" | (1,0) TextField
+    // (0,1) Label "Email :" | (1,1) TextField
+    GridPane gridPane = new GridPane();
+    Label label = new Label("Nom :");
+    GridPane.setConstraints(label, 0, 0);
+    TextField nomField = new TextField();
+    GridPane.setConstraints(nomField, 1, 0);
+    TextField emailField = new TextField();
+    GridPane.setConstraints(emailField, 1, 1);
+    gridPane.getChildren().addAll(nomField, emailField);
+    gridPane.getChildren().addAll(label);
+    Label label2 = new Label("Email :");
+    GridPane.setConstraints(label2, 0, 1);
+    root.setCenter(gridPane);
+    gridPane.getChildren().addAll(label2);
+
     // 4. Bottom : un HBox contenant deux boutons "Valider" et "Annuler",
-    //             avec un peu d'espacement et un padding.
+    // avec un peu d'espacement et un padding.
     //
     // Donne un id CSS utile sur les composants si tu veux les retrouver
     // facilement (les tests utilisent lookup sur les classes ".text-field"
     // et ".button", pas besoin d'id particulier).
+    HBox button = new HBox();
+    button.getChildren().addAll(new Button("Valider"), new Button("Annuler"));
+    root.setBottom(button);
+    Scene scene = new Scene(root);
+    primaryStage.setScene(scene);
+    primaryStage.show();
   }
 
   public static void main(String[] args) {
